@@ -116,9 +116,9 @@ class FaceRecognition:
         self.encode_faces()
         
     def encode_faces(self):
-        for image in os.listdir('faces'):
+        for image in os.listdir('faces2'):
             #imagem de fato da pessoa
-            face_image = extract_faces('faces/' + image)
+            face_image = extract_faces('faces2/' + image)
             #caracteristica ( embeddings ) dos rostos encontrados.
             face_encoding = self.model.predict(face_image, verbose=0)[0]
             
@@ -152,7 +152,6 @@ class FaceRecognition:
                 if face_image is not None:
                     #print('fazendo1')
                     face_encoding = (self.model.predict(face_image, verbose=0)[0])
-                
                 #self.face_encodings = face_recognition.face_encodings(rgb_small_frame, self.face_locations)
                     
                 self.face_names = []

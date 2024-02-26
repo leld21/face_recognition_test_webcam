@@ -130,12 +130,11 @@ class FaceRecognition:
         self.encode_faces()
         
     def encode_faces(self):
-        for image in os.listdir('faces'):
+        for image in os.listdir('faces2'):
             #imagem de fato da pessoa
-            face_image = extract_faces('faces/' + image)
+            face_image = extract_faces('faces2/' + image)
             #caracteristica ( embeddings ) dos rostos encontrados.
             face_encoding = self.model.predict(face_image, verbose=0)[0]
-            
             self.known_face_encodings.append(face_encoding)
             self.known_face_names.append(image[:-4])
     
@@ -165,6 +164,7 @@ class FaceRecognition:
                     break
                 
                 face_encoding = self.model.predict(face_image, verbose=0)[0]
+                print(face_encoding)
                     
                 self.face_names = []
                 check_distance = []
