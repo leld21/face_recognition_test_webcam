@@ -234,6 +234,9 @@ class FaceRecognition:
         botao.config(font=("Arial", 14))
         botao.grid(row=1, column=0, pady=10)
 
+        root.bind('<Return>', lambda event=None: self.adicionar_nome(small_frame, self.face_encodings[0]))
+        botao["command"] = lambda: self.adicionar_nome(small_frame, self.face_encodings[0])
+
         if not video_capture.isOpened():
             sys.exit('camera nao encontrada')
             
@@ -253,8 +256,6 @@ class FaceRecognition:
                 
                 if face_image is not None:
                     self.face_encodings.append(get_embedding(face_image))
-                    root.bind('<Return>', lambda event=None: self.adicionar_nome(small_frame, self.face_encodings[0]))
-                    botao["command"] = lambda: self.adicionar_nome(small_frame, self.face_encodings[0])
                     
                 #self.face_encodings = face_recognition.face_encodings(rgb_small_frame, self.face_locations)
                     
