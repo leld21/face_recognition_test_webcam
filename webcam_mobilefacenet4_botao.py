@@ -159,6 +159,13 @@ class FaceRecognition:
             
             # Se o usuário pressionar cancelar, o nome será None
             if (nome is not None and encoding is not None):
+                original_nome = nome
+                index = 1
+
+                while any(existing_nome == nome for _, existing_nome in self.tupla_encodings_nome):
+                    nome = f"{original_nome} {index}"
+                    index += 1
+                    
                 save_data_single(file_path,(encoding,nome))
 
                 cv2.imwrite(f'faces/{nome}.png', image)
@@ -191,9 +198,18 @@ class FaceRecognition:
         # Inicializar a interface gráfica
         root = tk.Tk()
 
+        root.attributes('-fullscreen', True)
+        root.bind('<f>', lambda event: root.attributes('-fullscreen', not root.attributes('-fullscreen')))
+
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
         # Criar um rótulo para exibir a imagem
         label = tk.Label(root)
-        label.grid(row=0, column=0)
+
+        #trocar 1280 e 720 pela resolucao da imagem pega pela webcam.
+        label.grid(row=0, column=0, padx=(screen_width - 1280) // 2)
+        #label.grid(row=0, column=0)
 
         # Criar um botão na interface gráfica
         #botao = tk.Button(root, text="Adicionar Seu Rosto",height=3, width=15)
@@ -223,6 +239,7 @@ class FaceRecognition:
                     self.face_encodings.append(self.model.predict(face_image, verbose=0)[0])
                     root.bind('<Return>', lambda event=None: self.adicionar_nome(small_frame, self.face_encodings[0]))
                     botao["command"] = lambda: self.adicionar_nome(small_frame, self.face_encodings[0])
+                        
                     
                 #self.face_encodings = face_recognition.face_encodings(rgb_small_frame, self.face_locations)
                     

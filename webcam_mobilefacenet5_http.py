@@ -157,8 +157,11 @@ class FaceRecognition:
             print(nome)
             # Se o usuário pressionar cancelar, o nome será None
             if (nome is not None and image is not None):
+                print('teste1')
                 face_loc = get_face_locations(image)
+                print('teste2')
                 face_image = extract_face2(image, face_loc)
+                print('teste3')
                 encoding = self.model.predict(face_image, verbose=0)[0]
                 print(encoding)
                 self.tupla_encodings_nome.append((encoding,nome))
@@ -259,6 +262,9 @@ class FaceRecognition:
 
 class RequestHandler(BaseHTTPRequestHandler):
     fr_instance = None
+    protocol_version = "HTTP/1.1"
+    have_fork = False
+    cgi.maxlen = 1024 * 1024 * 10  # Defina o tamanho desejado (10 MB aqui)
 
     def _send_response(self, message):
         self.send_response(200)
@@ -283,10 +289,10 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         name = form['name'].value
         image_binary = form['image'].file.read()
-
             # Converter image_binary para uma imagem
         image_np_array = np.frombuffer(image_binary, dtype=np.uint8)
         image = cv2.imdecode(image_np_array, cv2.IMREAD_COLOR)
+        print(len(image))
 
         if self.fr_instance:
             self.fr_instance.adicionar_nome(name, image)
