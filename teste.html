@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconhecimento Facial</title>
+</head>
+<body>
+
+    <h1>Reconhecimento Facial</h1>
+
+    <form id="form" enctype="multipart/form-data">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="image">Imagem:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+
+        <button type="button" onclick="submitForm()">Enviar</button>
+    </form>
+
+    <script>
+        function submitForm() {
+            var form = document.getElementById("form");
+            var formData = new FormData(form);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:8000/", true);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseText);
+                }
+            };
+
+            xhr.send(formData);
+        }
+    </script>
+
+</body>
+</html>

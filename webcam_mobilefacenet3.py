@@ -6,6 +6,9 @@ import numpy as np
 import tensorflow as tf
 from typing import Union
 
+physical_devices = tf.config.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
 face_detector = dlib.get_frontal_face_detector()
 file_path = 'encodings.txt'
 embeddings_to_save =[]
@@ -154,7 +157,7 @@ class FaceRecognition:
             #imagem de fato da pessoa
             face_image = extract_faces('faces/' + image)
             #caracteristica ( embeddings ) dos rostos encontrados.
-            face_encoding = self.model.predict(face_image, verbose=0)[0]
+            face_encoding = self.model.predict(face_image, batch_size=1, verbose=0)[0]
             
             self.known_face_encodings.append(face_encoding)
             nome_pessoa = image[:-4]
@@ -192,9 +195,7 @@ class FaceRecognition:
                 
                 if face_image is not None:
                     self.face_encodings.append(self.model.predict(face_image, verbose=0)[0])
-                
-                #self.face_encodings = face_recognition.face_encodings(rgb_small_frame, self.face_locations)
-                    
+                #self.face_encodings = face_recognition.face_encodings(rgb_small_frame, self.face_locations)  
                 self.face_names = []
                 for face_encoding in self.face_encodings:
                     name = 'Desconhecido'

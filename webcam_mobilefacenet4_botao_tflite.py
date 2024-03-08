@@ -207,10 +207,9 @@ class FaceRecognition:
     def run_recognition(self):
         # pega a primeira camera disponivel
         video_capture = cv2.VideoCapture(0)
-        #video_capture = cv2.VideoCapture('http://192.168.43.70:4747/video')
 
-        video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-        video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+        #video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+        #video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
         # Inicializar a interface gráfica
         root = tk.Tk()
@@ -246,7 +245,7 @@ class FaceRecognition:
             
             #Processa 1 vez a cada 2 frames
             if (self.process_current_frame):
-                small_frame = cv2.resize(frame, (0,0), fx=0.5, fy=0.5)
+                small_frame = cv2.resize(frame, (0,0), fx=1, fy=1)
                 #rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
 
                 self.face_locations = get_face_locations(small_frame)
@@ -284,10 +283,10 @@ class FaceRecognition:
             #Mostrar anotacoes na imagem
             if len(self.face_locations) > 0:
                 for face_location, name in zip(self.face_locations, self.face_names):
-                    top = face_location.top()*2
-                    right = face_location.right()*2
-                    bottom = face_location.bottom()*2
-                    left = face_location.left()*2
+                    top = face_location.top()
+                    right = face_location.right()
+                    bottom = face_location.bottom()
+                    left = face_location.left()
                     
                     if name != 'Desconhecido':
                         text = 'Bem vindo, ' + name + '!'

@@ -10,7 +10,6 @@ import tkinter as tk
 from tkinter.simpledialog import askstring
 from PIL import Image, ImageTk
 
-
 face_detector = dlib.get_frontal_face_detector()
 file_path = 'encodings.txt'
 embeddings_to_save =[]
@@ -191,9 +190,6 @@ class FaceRecognition:
         # pega a primeira camera disponivel
         video_capture = cv2.VideoCapture(0)
         #video_capture = cv2.VideoCapture('http://192.168.43.70:4747/video')
-
-        video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-        video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
         # Inicializar a interface gráfica
         root = tk.Tk()
